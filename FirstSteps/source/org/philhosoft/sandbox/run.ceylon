@@ -8,6 +8,7 @@ shared void run()
 	firstSteps.functions();
 	firstSteps.declaringTypes();
 	firstSteps.accessors();
+	firstSteps.namedArguments();
 
 	firstSteps.experiments();
 }

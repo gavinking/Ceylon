@@ -1,0 +1,1083 @@
+<?xml version="1.0"?>
+<synonyms>
+<theme id="theme-getting-started">
+  <title>Getting started</title>
+  <synonym id="syn-code-embedding">
+    <title>Code embedding</title>
+    <code language="ceylon"><![CDATA[
+// Ceylon browser code embedding: TODO
+]]></code>
+  </synonym>
+  <synonym id="syn-entry-point">
+    <title>Entry point</title>
+    <code language="ceylon"><![CDATA[
+// In run.ceylon, in general
+shared void run() {
+  // this is the entry point to the program
+  // Name isn't important as long as it is a shared top-level function
+  // command line arguments available in process.arguments value
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-detect-language-unavailability">
+    <title>Detect language unavailability</title>
+    <code language="ceylon"><![CDATA[
+// Ceylon browser code embedding: TODO
+]]></code>
+  </synonym>
+  <synonym id="syn-printing-to-the-console">
+    <title>Printing to the console</title>
+    <code language="ceylon"><![CDATA[
+print("Level completed.");
+]]></code>
+  </synonym>
+  <synonym id="syn-modal-alerts">
+    <title>Modal alerts</title>
+    <code language="ceylon"><![CDATA[
+// No native implementation
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-code-modularity">
+  <title>Code modularity</title>
+  <learn-more>http://ceylon-lang.org/documentation/1.0/tour/modules/</learn-more>
+  <synonym id="syn-define-a-library">
+    <title>Define a library</title>
+    <code language="ceylon"><![CDATA[
+// Module definition in module.ceylon
+module com.company.animal "1.0.0" {
+	import ceylon.collection "1.1.0";
+}
+
+// Package definition in package.ceylon (can be several packages per module)
+package com.company.animal;
+
+// Class in a .ceylon file (file name not tied to class names)
+class Dog() {
+  shared String noise() => "BARK!";
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-use-a-library">
+    <title>Use a library</title>
+    <code language="ceylon"><![CDATA[
+import com.company.animal { Dog }
+Dog fido = Dog();
+
+// We can rename an imported class to avoid namespace collisions
+import com.company.animal { Pet = Dog }
+Pet fido = Pet();
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-variables">
+  <title>Variables</title>
+  <learn-more>http://ceylon-lang.org/documentation/1.0/tour/attributes-control-structures</learn-more>
+  <synonym id="syn-create--assign-value">
+    <title>Create + assign value</title>
+    <code language="ceylon"><![CDATA[
+// Ceylon variables are typed...
+String myName = "Aaron";
+
+// but type can be infered in a private scope
+// (inside a function, inside a class if not shared)
+function fun() { // 'function' can be used only in a private scope too
+  value myOtherName = "Aaron";
+  // [...]
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-default-value">
+    <title>Default value</title>
+    <code language="ceylon"><![CDATA[
+// Ceylon variables and values have no implicit default value,
+// they must be explicitly initialized
+]]></code>
+  </synonym>
+  <synonym id="syn-hoisting">
+    <title>Hoisting</title>
+    <code language="ceylon"><![CDATA[
+// Ceylon does not hoist variables.  The following
+// method will issue a compilation error
+// of "Forward reference to local declaration: name is not yet declared"
+void printName() {
+  print("Hello, ``name``"); // compilation error here
+  value name = "Bob";
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-final-variables">
+    <title>Final variables</title>
+    <code language="ceylon"><![CDATA[
+// values are immutable
+value name = "Bob";
+
+// you can specify types, they are immutable by default
+String name = "Bob";
+
+// Trying to reassign an immutable variable raises a compilation error
+name = "Alice";
+// ERROR: Value is not variable and is aready definitely specified: name
+
+// To have mutable types, you must explicitly specify it:
+variable value name = "Bob";
+// or
+variable String name = "Bob";
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-collections">
+  <title>Collections</title>
+  <learn-more>http://ceylon-lang.org/documentation/1.0/tour/sequences</learn-more>
+  <synonym id="syn-arrays--lists">
+    <title>Arrays / Lists</title>
+    <code language="ceylon"><![CDATA[
+String[] a1 = []; // Immutable
+String[] a2 = [ "apple", "banana", "cherry" ]; // Idem
+Array<String> a3 = arrayOfSize(5, ""); // Mutable
+List<String> a4 = ArrayList(); // Immutable (unless asserted as ArrayList)
+ArrayList<String> a5 = ArrayList<String>(); // Can grow
+ArrayList<String> a6 = ArrayList { elements = [ "apple", "banana", "cherry" ]; };
+
+a3.set(3, "foo");
+
+a5.add("orange");
+assert(a5.size == 4);
+]]></code>
+  </synonym>
+  <synonym id="syn-custom-sort">
+    <title>Custom sort</title>
+    <code language="ceylon"><![CDATA[
+Float[] f =  [ 42.0, 2.1, 5.0, 0.1, 391.0 ];
+value sf = f.sort((Float x, Float y) => x.compare(y));
+// == [0.1, 2.1, 5.0, 42.0, 391.0]
+]]></code>
+  </synonym>
+  <synonym id="syn-key-value-pairs">
+    <title>Key-value pairs</title>
+    <code language="ceylon"><![CDATA[
+// Ceylon has a Map interface for key-value pairs
+Map<String, String> periodic = HashMap();
+]]></code>
+  </synonym>
+  <synonym id="syn-appropriate-keys">
+    <title>Appropriate keys</title>
+    <code language="ceylon"><![CDATA[
+// Map literals can use any object as a key.
+// For example, strings:
+Map<String, String> periodic = HashMap {
+  entries = [ "gold"->"AU", "silver"->"AG" ];
+};
+]]></code>
+  </synonym>
+  <synonym id="syn-accessing-values">
+    <title>Accessing values</title>
+    <code language="ceylon"><![CDATA[
+// Ensure the map is mutable
+assert(is HashMap<String, String> periodic);
+periodic.get("gold"); // AU
+periodic.put("gold", "Glitter");
+
+// The HashMap does not have a similiar putIfAbsent
+]]></code>
+  </synonym>
+  <synonym id="syn-sets-collections-of-unique-items">
+    <title>Sets (collections of unique items)</title>
+    <code language="ceylon"><![CDATA[
+Set<String> fruits = HashSet { elements = { "oranges", "apples" }; };
+fruits.size // == 2
+
+if (is HashSet<String> fruits)  { // Cast down to mutable
+
+  fruits.add("apricots");
+  fruits.add("apples"); // duplicate of existing item
+}
+fruits.size // == 3
+]]></code>
+  </synonym>
+  <synonym id="syn-queues-fifo">
+    <title>Queues (FIFO)</title>
+    <code language="ceylon"><![CDATA[
+Queue<String> queue = LinkedList<String>();
+queue.offer("event:32342");
+queue.offer("event:49309");
+
+assert(is List<String> queue); // size defined on List, not on Queue
+print(queue.size);  // 2
+
+value eventId = queue.accept();
+assert(exists eventId); // Necessary as eventId can be null
+
+print(eventId == "event:32342"); // true
+print(queue.size); // 1
+
+// Also Stack (FILO)
+Stack<String> stack = LinkedList<String>();
+assert(is LinkedList<String> stack);
+stack.push("event:32342");
+stack.push("event:49309");
+
+print(stack.size);  // 2
+
+value eventId = stack.pop();
+assert(exists eventId);
+
+print(eventId == "event:49309"); // true
+print(stack.size); // 1
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-strings">
+  <title>Strings</title>
+  <learn-more>http://ceylon-lang.org/documentation/1.0/tour/language-module/</learn-more>
+  <synonym id="syn-raw-strings">
+    <title>Raw strings</title>
+    <code language="ceylon"><![CDATA[
+value rawString = """The following is not expanded to a tab \t""";
+
+value escapedString = "The following is not expanded to a tab \\t";
+
+assert(rawString == escapedString); // == true
+]]></code>
+  </synonym>
+  <synonym id="syn-interpolation">
+    <title>Interpolation</title>
+    <code language="ceylon"><![CDATA[
+value name = "Aaron";
+value greeting = "My name is ``name``.";
+
+value greetingPolish = "My Polish name would be ``name``ski.";
+
+// calculations can be performed in string interpolation
+element.style.top = "``top + 20``px";
+]]></code>
+  </synonym>
+  <synonym id="syn-concatenation">
+    <title>Concatenation</title>
+    <code language="ceylon"><![CDATA[
+// Strings can be multiline
+value longMessage = "This is a very long line.
+                     It is concatenated into one string.".normalized;
+
+// Using + also works.
+value anotherMessage = "This is also a very long line. " +
+    "It is concatenated with a +.";
+]]></code>
+  </synonym>
+  <synonym id="syn-substring">
+    <title>Substring</title>
+    <code language="ceylon"><![CDATA[
+assert("doghouses"[3 .. 7] == "house");
+assert("doghouses"[3 : 5] == "house");
+]]></code>
+  </synonym>
+  <synonym id="syn-replace-all-occurences">
+    <title>Replace all occurences</title>
+    <code language="ceylon"><![CDATA[
+assert("doghouses".replace("s", "z") == "doghouzez");
+]]></code>
+  </synonym>
+  <synonym id="syn-replace-one-occurence">
+    <title>Replace one occurence</title>
+    <code language="ceylon"><![CDATA[
+assert("racecar".replaceFirst("r", "sp") == "spacecar");
+]]></code>
+  </synonym>
+  <synonym id="syn-multi-line-strings">
+    <title>Multi-line strings</title>
+    <code language="ceylon"><![CDATA[
+// Ceylon keeps the new lines.
+// Content must be indented at the level of the opening quote.
+// Indentation is removed.
+value string = "
+                This is a string that spans
+                many lines.
+                ";
+]]></code>
+  </synonym>
+  <synonym id="syn-split-into-an-array">
+    <title>Split into an array</title>
+    <code language="ceylon"><![CDATA[
+value animals = "dogs, cats, gophers, zebras";
+value individualAnimals = animals.replace(", ", "@").split('@'.equals);
+// == { dogs, cats, gophers, zebras }
+]]></code>
+  </synonym>
+  <synonym id="syn-test-whether-a-string-starts-with-a-substring">
+    <title>Test whether a string starts with a substring</title>
+    <code language="ceylon"><![CDATA[
+"racecar".startsWith("race"); // == true
+"racecar".startsWith("pace"); // == false
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-booleans">
+  <title>Booleans</title>
+  <learn-more>http://ceylon-lang.org/documentation/1.0/tour/attributes-control-structures/</learn-more>
+  <synonym id="syn-if-statements">
+    <title>If statements</title>
+    <code language="ceylon"><![CDATA[
+value bugNumbers = [ 3234, 4542, 944, 124 ];
+if (bugNumbers.size > 0) {
+  print("Not ready for release");
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-ternary-statements">
+    <title>Ternary statements</title>
+    <code language="ceylon"><![CDATA[
+value bugNumbers = [ 3234, 4542, 944, 124 ];
+value status = bugNumbers.size > 0 then "RED" else "GREEN";
+
+print("The build is ``status``");
+]]></code>
+  </synonym>
+  <synonym id="syn-checking-for-empty-string">
+    <title>Checking for empty string</title>
+    <code language="ceylon"><![CDATA[
+value emptyString = "";
+
+if (emptyString.empty) {
+  print("use empty to check emptiness");
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-checking-for-zero">
+    <title>Checking for zero</title>
+    <code language="ceylon"><![CDATA[
+Integer tzero = 0;
+value zero = 0;
+
+if (zero == 0 && tzero == 0) {
+  print("use == 0 to check zero");
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-checking-for-null">
+    <title>Checking for null</title>
+    <code language="ceylon"><![CDATA[
+String? notNull = "nn";
+String? myNull = null;
+
+if (exists notNull) {
+    print("use exists to check null");
+}
+if (!is Null myNull) {} else {
+    print("use !is Null to invert the check");
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-checking-for-nan">
+    <title>Checking for NaN</title>
+    <code language="ceylon"><![CDATA[
+value myNaN = 0.0 / 0;
+value myInfinite = 1.0 / 0;
+
+if (myNaN.undefined) {
+    print("use undefined to check if a number is NaN");
+}
+if (myInfinite.infinite) {
+    print("use infinite to check if a number is Infinite");
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-checking-for-undefined">
+    <title>Checking for undefined</title>
+    <code language="ceylon"><![CDATA[
+// Ceylon does not have a concept of undefined value (other than Float)
+]]></code>
+  </synonym>
+  <synonym id="syn-value-and-identity-equality">
+    <title>Value and identity equality</title>
+    <code language="ceylon"><![CDATA[
+/*
+ * In Ceylon, == will call the equals method inherited from Object.
+ * You can use a === b to check if two objects are the same instance.
+ * When implementing equals() you don"t have to worry about
+ *    manually checking for null arg.
+ */
+
+// therefore, the following code will work:
+
+value letterA = "A";
+value charA = String({ 65.character });
+
+// String defines equality as "same character codes in same order"
+assert(letterA == charA); // == true
+
+// However, the following is different than JavaScript
+value number5 = 5;
+value char5 = "5";
+
+assert(number5 != char5); // == true, because of different types
+
+// You can implement == in your own class
+class Person(String name, String ssn) {
+    shared actual Boolean equals(Object that) {
+      if (is Person that) {
+        return ssn == that.ssn;
+      }
+    return false;
+    }
+}
+
+assert(Person("Bob", "111") == Person("Robert", "111"));
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-functions">
+  <title>Functions</title>
+  <learn-more>http://ceylon-lang.org/documentation/1.0/tour/functions/</learn-more>
+  <synonym id="syn-function-definition">
+    <title>Function definition</title>
+    <code language="ceylon"><![CDATA[
+// Specifying the return type of the function
+// in Ceylon is optional if that's a non-shared, non-top-level function.
+function fn() {
+  …
+  return true;
+}
+
+// can also be written as
+Boolean fn() {
+  …
+  return true;
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-return-value">
+    <title>Return value</title>
+    <code language="ceylon"><![CDATA[
+// Like JavaScript, use the "return" keyword in a function
+// definition to return a value.
+function fn() {
+  return "Hello";
+}
+fn(); // == "Hello"
+
+// A function with no return value is void, equivalent of type Anything
+void doNothing() {
+  // nothing
+}
+doNothing();
+
+// if the body of the function is returning a single expression,
+// this is the short form
+function fn() => true;
+]]></code>
+  </synonym>
+  <synonym id="syn-assign-a-function-to-a-variable">
+    <title>Assign a function to a variable</title>
+    <code language="ceylon"><![CDATA[
+value loudify = (String msg) => msg.uppercased;
+
+print(loudify("not gonna take it anymore")); // NOT GONNA TAKE IT ANYMORE
+]]></code>
+  </synonym>
+  <synonym id="syn-optional-parameters">
+    <title>Optional parameters</title>
+    <code language="ceylon"><![CDATA[
+function fn(Integer a, Integer b, Integer c) => c;
+
+fn(1); // ERROR: Missing argument to required parameter b of fn (idem for c)
+fn(1, 2, 3); // == 3
+
+// Ceylon specifies optional parameters by providing a default value
+function fn(Integer a, Integer b = -1, Integer c = -2) => c;
+fn(1); // == -2
+]]></code>
+  </synonym>
+  <synonym id="syn-default-parameters">
+    <title>Parameters with default values</title>
+    <code language="ceylon"><![CDATA[
+String send(String msg, String rate = "First Class") {
+  return "``msg`` was sent via ``rate``";
+}
+
+send("hello"); // == "hello was sent via First Class"
+send("I'm cheap", "4th class"); // == "I"m cheap was sent via 4th class"
+]]></code>
+  </synonym>
+  <synonym id="syn-named-parameters">
+    <title>Named parameters</title>
+    <code language="ceylon"><![CDATA[
+// Same function definition
+String send(String msg, String rate = "First Class") {
+  return "``msg`` was sent via ``rate``";
+}
+
+// First parameter is positional, second one is named
+send { "I'm cheap"; rate = "4th class"; }
+// Both are named
+send { rate = "4th class"; msg = "I'm cheap"; }
+// Compilation error as msg has no default value
+send { rate = "4th class"; }
+]]></code>
+  </synonym>
+  <synonym id="syn-variable-number-of-arguments">
+    <title>Variable number of arguments</title>
+    <code language="ceylon"><![CDATA[
+void method(Integer mandatory, String* strings) {
+  for (s in strings[0:mandatory]) {
+    print(s);
+  }
+}
+method(2, "a", "b", "c"); // a, b
+method(10, "a", "b", "c"); // a, b, c
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-iterators">
+  <title>Iterators</title>
+  <learn-more>http://ceylon-lang.org/documentation/1.0/tour/attributes-control-structures/</learn-more>
+  <synonym id="syn-for-loops-for-lists">
+    <title>For loops for lists</title>
+    <code language="ceylon"><![CDATA[
+value colors = [ "red", "orange", "green" ];
+
+for (i in 0:colors.size) {
+  print(colors[i]);
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-for-in-loops">
+    <title>For-in loops</title>
+    <code language="ceylon"><![CDATA[
+value fruits = [ "orange", "apple", "banana" ];
+
+// "in" notation in Ceylon returns the element
+// of the list, not the index
+
+for (fruit in fruits) {
+  print(fruit);
+}
+// but we can also have the index
+for (idx->fruit in fruits.indexed) {
+    print("``idx`` - ``fruit``");
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-for-loops-for-objectsmaps">
+    <title>For loops for objects/maps</title>
+    <code language="ceylon"><![CDATA[
+Map<String, String> data = HashMap { entries = [ "gold"->"AU", "silver"->"AG" ]; };
+
+for (key->val in data) {
+    print("``key`` - ``val``");
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-closures-and-counters-in-loops">
+    <title>Closures and counters in loops</title>
+    <code language="ceylon"><![CDATA[
+// Ceylon doesn"t reuse and close over the same
+// loop variable in each iteration
+value callbacks = ArrayList<Anything()>();
+for (i in 0:3) {
+    callbacks.add(void () { print(i); return; });
+}
+
+if (exists c = callbacks.get(0)) { c(); } // => 0
+if (exists c = callbacks.get(1)) { c(); } // => 1
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-classes">
+  <title>Classes</title>
+  <learn-more>http://ceylon-lang.org/documentation/1.0/tour/classes/</learn-more>
+  <synonym id="syn-define">
+    <title>Define</title>
+    <code language="ceylon"><![CDATA[
+class Person {
+  String name;
+
+  String greet() => "Hello, $name";
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-constructor-with-parameter">
+    <title>Constructor with parameter</title>
+    <code language="ceylon"><![CDATA[
+class Person {
+  String name;
+
+  Person(String name) {
+    this.name = name;
+  }
+}
+
+// Shorter alternative
+class Person {
+  String name;
+
+  // parameters prefixed by "this." will assign to
+  // instance variables automatically
+  Person(this.name);
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-instantiate">
+    <title>Instantiate</title>
+    <code language="ceylon"><![CDATA[
+value person = new Person();
+]]></code>
+  </synonym>
+  <synonym id="syn-reflection">
+    <title>Reflection</title>
+    <code language="ceylon"><![CDATA[
+value name = "Bob";
+name.runtimeType  // == String
+]]></code>
+  </synonym>
+  <synonym id="syn-check-the-type">
+    <title>Check the type</title>
+    <code language="ceylon"><![CDATA[
+value name = "Bob";
+
+name is String // == true
+
+name is! int // == true
+]]></code>
+  </synonym>
+  <synonym id="syn-subclass">
+    <title>Subclass</title>
+    <code language="ceylon"><![CDATA[
+class Person {
+  String name;
+
+  Person(this.name);
+
+  String greet() => "Hello, $name";
+}
+
+class Employee extends Person {
+  num salary;
+
+  Employee(String name, this.salary) : super(name);
+
+  void grantRaise(num percent) {
+    percent /= 100;
+    salary += (salary * percent).toInt();
+  }
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-operator-overloading">
+    <title>Operator &quot;overloading&quot;</title>
+    <code language="ceylon"><![CDATA[
+class Hug {
+  num strength;
+  Hug(this.strength);
+
+  Hug operator +(Hug other) => new Hug(strength + other.strength);
+}
+
+main() {
+  value hug1 = new Hug(10);
+  value hug2 = new Hug(100);
+  value bigHug = hug1 + hug2;
+}
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-finding-elements-in-dom">
+  <title>Finding elements in DOM</title>
+  <synonym id="syn-find-one-element-by-id">
+    <title>Find one element by id</title>
+    <code language="ceylon"><![CDATA[
+querySelector("#main");
+]]></code>
+  </synonym>
+  <synonym id="syn-find-one-element-by-class">
+    <title>Find one element by class</title>
+    <code language="ceylon"><![CDATA[
+querySelector(".visible");
+]]></code>
+  </synonym>
+  <synonym id="syn-find-many-elements-by-class">
+    <title>Find many elements by class</title>
+    <code language="ceylon"><![CDATA[
+querySelectorAll(".visible");
+]]></code>
+  </synonym>
+  <synonym id="syn-find-one-element-by-tag">
+    <title>Find one element by tag</title>
+    <code language="ceylon"><![CDATA[
+querySelector("div");
+]]></code>
+  </synonym>
+  <synonym id="syn-find-many-elements-by-tag">
+    <title>Find many elements by tag</title>
+    <code language="ceylon"><![CDATA[
+querySelectorAll("div");
+]]></code>
+  </synonym>
+  <synonym id="syn-find-one-element-by-name">
+    <title>Find one element by name</title>
+    <code language="ceylon"><![CDATA[
+querySelector("[name="form"]");
+]]></code>
+  </synonym>
+  <synonym id="syn-find-many-elements-by-name">
+    <title>Find many elements by name</title>
+    <code language="ceylon"><![CDATA[
+querySelectorAll("[name="form"]");
+]]></code>
+  </synonym>
+  <synonym id="syn-find-elements-by-combination-of-above">
+    <title>Find elements by combination of above</title>
+    <code language="ceylon"><![CDATA[
+querySelector("#main").querySelector("div").querySelectorAll(".visible");
+
+querySelectorAll("#main div:first-of-type .visible");
+]]></code>
+  </synonym>
+  <synonym id="syn-iterate-over-a-list-of-elements">
+    <title>Iterate over a list of elements</title>
+    <code language="ceylon"><![CDATA[
+for (value el in els) {
+  doSomethingWithEl(el);
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-access-the-first-child">
+    <title>Access the first child</title>
+    <code language="ceylon"><![CDATA[
+elem.children.first;
+
+elem.children[0];
+]]></code>
+  </synonym>
+  <synonym id="syn-find-out-whether-an-element-has-children-elements">
+    <title>Find out whether an element has children elements</title>
+    <code language="ceylon"><![CDATA[
+!elem.nodes.isEmpty;
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-manipulating-dom">
+  <title>Manipulating DOM</title>
+  <synonym id="syn-create-an-element">
+    <title>Create an element</title>
+    <code language="ceylon"><![CDATA[
+import "dart:html";
+
+value element = new Element.tag("div");
+
+// Many elements have their own constructors.
+value element = new DivElement();
+]]></code>
+  </synonym>
+  <synonym id="syn-create-an-element-and-set-its-contents">
+    <title>Create an element and set its contents</title>
+    <code language="ceylon"><![CDATA[
+value element = new Element.html("<p>A quick brown <em>fox</em>.</p>");
+]]></code>
+  </synonym>
+  <synonym id="syn-add-an-element-to-a-parent">
+    <title>Add an element to a parent</title>
+    <code language="ceylon"><![CDATA[
+element.children.add(newElement);
+]]></code>
+  </synonym>
+  <synonym id="syn-remove-an-element-from-its-parent">
+    <title>Remove an element from its parent</title>
+    <code language="ceylon"><![CDATA[
+element.remove();
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-regular-expressions">
+  <title>Regular expressions</title>
+  <synonym>
+    <code language="ceylon"><![CDATA[
+value email = "test@example.com";
+(new RegExp(r"@")).firstMatch(email);
+// == Match Object
+]]></code>
+  </synonym>
+  <synonym>
+    <code language="ceylon"><![CDATA[
+value invalidEmail = "f@il@example.com";
+(new RegExp(r"@")).allMatches(invalidEmail)
+// == Iterable Match Object
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-exceptions">
+  <title>Exceptions</title>
+  <synonym id="syn-throw-an-exception">
+    <title>Throw an exception</title>
+    <code language="ceylon"><![CDATA[
+throw new Exception("Intruder Alert!!");
+
+// You can also throw strings
+
+throw "Unexpected user input";
+]]></code>
+  </synonym>
+  <synonym id="syn-catch-an-exception">
+    <title>Catch an exception</title>
+    <code language="ceylon"><![CDATA[
+main() {
+  try {
+    int.parse("three");
+  } on FormatException catch(fe) {
+    print("Ouch! Detected: $fe");
+  } catch(e) {
+    print("If some other type of exception");
+  } finally {
+    print("This runs even if an exception is thrown");
+  }
+}
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-event-handling">
+  <title>DOM Event handling</title>
+  <synonym id="syn-attach-an-event-handler">
+    <title>Attach an event handler</title>
+    <code language="ceylon"><![CDATA[
+element.onClick.listen(handleOnClick);
+
+handleOnClick(Event e) {
+  // ...
+}
+
+// Or, if the handler does not take an event
+
+element.onClick.listen((e) => subscribeToService());
+]]></code>
+  </synonym>
+  <synonym id="syn-remove-an-event-handler">
+    <title>Remove an event handler</title>
+    <code language="ceylon"><![CDATA[
+value subscription = element.onClick.listen(handleOnClick);
+subscription.cancel();
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-timing">
+  <title>Timing</title>
+  <synonym id="syn-schedule-a-future-event">
+    <title>Schedule a future event</title>
+    <code language="ceylon"><![CDATA[
+import "dart:async";
+value timer = new Timer(new Duration(milliseconds:500), () { … });
+]]></code>
+  </synonym>
+  <synonym id="syn-measure-the-execution-time-of-a-function">
+    <title>Measure the execution time of a function</title>
+    <code language="ceylon"><![CDATA[
+int measure(fn) {
+  value watch = new Stopwatch();
+  watch.start();
+  fn();
+  return watch.elapsedMicroseconds;
+}
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-html-attributes">
+  <title>HTML attributes</title>
+  <synonym id="syn-get-html-attribute">
+    <title>Get HTML attribute</title>
+    <code language="ceylon"><![CDATA[
+element.attributes["href"];
+]]></code>
+  </synonym>
+  <synonym id="syn-set-html-attribute">
+    <title>Set HTML attribute</title>
+    <code language="ceylon"><![CDATA[
+element.attributes["playable"] = true;
+]]></code>
+  </synonym>
+  <synonym id="syn-remove-html-attribute">
+    <title>Remove HTML attribute</title>
+    <code language="ceylon"><![CDATA[
+element.attributes.remove("playable");
+]]></code>
+  </synonym>
+  <synonym id="syn-check-if-html-attribute-exists">
+    <title>Check if HTML attribute exists</title>
+    <code language="ceylon"><![CDATA[
+element.attributes.containsKey("href");
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-css-classes">
+  <title>CSS classes</title>
+  <synonym id="syn-add-css-class">
+    <title>Add CSS class</title>
+    <code language="ceylon"><![CDATA[
+element.classes.add("new-class");
+]]></code>
+  </synonym>
+  <synonym id="syn-remove-css-class">
+    <title>Remove CSS class</title>
+    <code language="ceylon"><![CDATA[
+element.classes.remove("new-class");
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-ajax">
+  <title>Ajax</title>
+  <synonym id="syn-request-data-via-xmlhttprequest">
+    <title>Request data via XMLHttpRequest</title>
+    <code language="ceylon"><![CDATA[
+HttpRequest.request("/data.json").then((req) {
+  print("The contents of your data: ${req.responseText}");
+});
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-jquery">
+  <title>jQuery</title>
+  <synonym id="syn-react-to-document-finishing-loading">
+    <title>React to document finishing loading</title>
+    <code language="ceylon"><![CDATA[
+window.onContentLoaded.listen((e) => print("Content is loaded"));
+
+// However, main() will normally run after DOMContentLoaded
+]]></code>
+  </synonym>
+  <synonym id="syn-node-lookup">
+    <title>Node lookup</title>
+    <code language="ceylon"><![CDATA[
+value els = querySelectorAll("div");
+]]></code>
+  </synonym>
+  <synonym id="syn-node-creation">
+    <title>Node creation</title>
+    <code language="ceylon"><![CDATA[
+value pic = new Element.tag("img");
+
+pic.classes.add("avatar");
+pic.classes.toggle("main");
+
+pic.attributes["src"] = "myPic.jpg";
+
+// Or:
+
+value pic = new ImageElement("myPic.jpg");
+pic.classes
+    ..add("avatar")
+    ..toggle("main");
+
+// Cascades (..) allow you to chain
+// multiple method calls on an object.
+
+document.body.children.add(pic);
+]]></code>
+  </synonym>
+  <synonym id="syn-event-handling">
+    <title>Event handling</title>
+    <code language="ceylon"><![CDATA[
+querySelectorAll("a.person").forEach((el) {
+  el.onClick.listen((e) => print("Person clicked"));
+});
+]]></code>
+  </synonym>
+  <synonym id="syn-relative-nodes">
+    <title>Relative nodes</title>
+    <code language="ceylon"><![CDATA[
+value myNode = querySelector("div");
+
+value parent = myNode.parent;
+
+value next = myNode.nextNode;
+]]></code>
+  </synonym>
+  <synonym id="syn-children">
+    <title>Children</title>
+    <code language="ceylon"><![CDATA[
+value myNode = querySelector("div");
+
+if (!myNode.children.isEmpty) {
+  myNode.children.clear();
+}
+]]></code>
+  </synonym>
+  <synonym id="syn-clone">
+    <title>Clone</title>
+    <code language="ceylon"><![CDATA[
+value clonedElement = querySelector("#about").clone(true);
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-math">
+  <title>Math</title>
+  <synonym id="syn-absolute-value">
+    <title>Absolute value</title>
+    <code language="ceylon"><![CDATA[
+-4.abs() // == 4
+]]></code>
+  </synonym>
+  <synonym id="syn-ceiling">
+    <title>Ceiling</title>
+    <code language="ceylon"><![CDATA[
+4.89.ceil() // == 5
+]]></code>
+  </synonym>
+  <synonym id="syn-floor">
+    <title>Floor</title>
+    <code language="ceylon"><![CDATA[
+4.89.floor() // == 4
+]]></code>
+  </synonym>
+  <synonym id="syn-random">
+    <title>Random</title>
+    <code language="ceylon"><![CDATA[
+import "dart:math";
+
+value rand = new Random();
+
+// Returns a random double greater than or equal to 0.0
+// and less than 1.0
+rand.nextDouble();
+
+// Returns a random boolean value.
+rand.nextBool();
+
+// Returns a positive random integer greater or equal
+// to 0 and less than 10
+rand.nextInt(10);
+]]></code>
+  </synonym>
+  <synonym id="syn-sine-and-cosine">
+    <title>Sine and Cosine</title>
+    <code language="ceylon"><![CDATA[
+import "dart:math" as Math;
+Math.sin(Math.PI/2) // == 1.0
+Math.cos(Math.PI) // == -1.0
+]]></code>
+  </synonym>
+  <synonym id="syn-convert-a-string-to-a-number">
+    <title>Convert a String to a number</title>
+    <code language="ceylon"><![CDATA[
+int.parse("3") // == 3
+
+double.parse("3.14") // == 3.14
+
+int.parse("3px") // ERROR: throws FormatException
+int.parse("three") // ERROR: throws FormatException
+]]></code>
+  </synonym>
+</theme>
+<theme id="theme-run-time-program-manipulation">
+  <title>Run-time program manipulation</title>
+  <synonym id="syn-eval">
+    <title>Eval</title>
+    <code language="ceylon"><![CDATA[
+// Dart doesn"t support eval(). This is not a bug.
+]]></code>
+  </synonym>
+  <synonym id="syn-adding-a-method-to-a-class">
+    <title>Adding a method to a class</title>
+    <code language="ceylon"><![CDATA[
+// Dart doesn"t support changing a class after
+// the program has been compiled
+]]></code>
+  </synonym>
+</theme>
+</synonyms>

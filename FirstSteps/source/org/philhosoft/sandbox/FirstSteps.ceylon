@@ -183,7 +183,7 @@ class FirstSteps()
 
 		title("for each with index");
 		value jNumbers = [ "ichi", "ni", "san", "shi", "go", "roku", "shichi" ];
-		for (idx->jn in  jNumbers.indexed)
+		for (idx->jn in jNumbers.indexed)
 		{
 			print("Counting: ``idx + 1`` is ``jn``");
 		}
@@ -497,11 +497,22 @@ class FirstSteps()
 		after();
 	}
 
+	shared void namedArguments()
+	{
+		stepTitle("Named arguments");
+
+		// Let's make a function with several arguments
+		void doStuff(Integer number, String name, {String*} items)
+		{
+			print("``number`` - ``name`` with ``items``");
+		}
+	}
+
 	shared void experiments()
 	{
 		stepTitle("Some experiments");
 
-		/* Foo /* And more */ Bar */
+		/* Foo /* And more /* (Nested comments) */ */ Bar */
 
 		void mutating(variable Integer n, variable LinkedList<String> l) { n += 4; l.set(1, "Yo"); }
 		void enabling(String? maybe)
