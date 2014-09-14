@@ -10,4 +10,7 @@ shared void runDS()
 	strings();
 	controlStructures();
 	functions();
+	classes();
+	regExesAndExceptions();
+	math();
 }

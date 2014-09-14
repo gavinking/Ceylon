@@ -487,6 +487,7 @@ public class LambdaExample {
     <title>Variable number of arguments</title>
     <code language="java"><![CDATA[
 public void method(String... strings) {
+  // TODO/PLS: add comment like "treat strings as an array
 }
 method("a", "b", "c");
 ]]></code>
@@ -806,6 +807,8 @@ element.removeFromParent();
   <title>Regular expressions</title>
   <synonym>
     <code language="java"><![CDATA[
+// TODO/PLS: Uh? Java has no RegExp / MatchResult, but Pattern / Matcher
+// If that's GWT's regexp, be explicit and show the Java version too
 String email = "test@example.com";
 RegExp regExp = RegExp.compile("@");
 MatchResult matcher = regExp.exec(email);
@@ -839,6 +842,8 @@ try {
   Integer.parseInt("three");
 } catch (NumberFormatException e) {
   e.printStackTrace();
+} finally { // TODO/PLS: added
+  print("This runs even if an exception is thrown");
 }
 ]]></code>
   </synonym>
