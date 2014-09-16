@@ -9,6 +9,12 @@ import ceylon.collection
     Stack,
     LinkedList
 }
+//import ceylon.math.decimal { round, ceiling }
+import ceylon.math.float { ... }
+import ceylon.language.meta { type }
+import java.util.regex { Pattern, Matcher }
+import ceylon.interop.java { javaString }
+
 
 class Dog()
 {
@@ -289,3 +295,115 @@ void functions()
 	method(10, "a", "b", "c");
 }
 
+void classes()
+{
+	class Person_1()
+	{
+		shared variable String name = "";
+
+		shared String greet() => "Hello, ``name``";
+	}
+	value person_1 = Person_1();
+	person_1.name = "Bob";
+	print(person_1.greet());
+
+	class Person_2(shared String name)
+	{
+	}
+	value person_2 = Person_2("Bob");
+	print(person_2.name);
+
+	print(type(person_2));
+	print(type("Bob"));
+
+	String | Integer name = "Bob";
+	assert(is String name);
+
+	class Person_3(String name)
+	{
+		shared String greet() => "Hello, ``name``";
+	}
+
+	class Employee(String name, salary) extends Person_3(name)
+	{
+		shared variable Integer salary;
+		shared void grantRaise(Float percent)
+		{
+			salary += (salary * percent / 100).integer;
+		}
+	}
+
+	Employee e = Employee("Jack", 10000);
+	e.grantRaise(10.0);
+	print("``e.greet()``, your salary is now ``e.salary``");
+
+	class Hug(strength) satisfies Summable<Hug>
+	{
+		shared Integer strength;
+
+		shared actual Hug plus(Hug other) => Hug(strength + other.strength);
+	}
+
+	value hug1 = Hug(10);
+	value hug2 = Hug(100);
+	value bigHug = hug1 + hug2;
+	print(bigHug.strength);
+}
+
+void regExesAndExceptions()
+{
+	String email = "test@example.com";
+	Pattern pattern = Pattern.compile("""[^@]+@[\w.-]+""");
+	Matcher matcher = pattern.matcher(javaString(email));
+	print(matcher.matches());
+
+	value invalidEmail = "f@il@example.com";
+	Matcher imatcher = pattern.matcher(javaString(invalidEmail));
+	print(imatcher.groupCount());
+
+	if (email.empty)
+	{
+		throw Exception("Intruder Alert!!");
+	}
+
+	try
+	{
+		value v = parseInteger("three"); // Doesn't throw an exception, returns null
+		value ill = 5 % 0;
+		print("Never prints this - ``(v else 0) + ill``");
+	}
+	catch (Exception e)
+	{
+		print(e);
+	}
+	finally
+	{
+		print("This runs even if an exception is thrown");
+	}
+}
+
+void math()
+{
+	print((-4).magnitude);
+	print(ceiling(4.89));
+	print(floor(4.89));
+
+	// Returns a random float greater than or equal to 0.0
+	// and less than 1.0
+	print(random());
+
+	// Returns a random boolean value.
+	print(random() > 0.5);
+
+	// Returns a positive random integer greater or equal
+	// to 0 and less than 10
+	print(floor(10 *random()));
+
+	print(sin(pi / 2));
+	print(cos(pi));
+
+	print(parseInteger("3"));
+	print(parseFloat("3.14"));
+	print(parseInteger("3px"));
+	print(parseInteger("three"));
+}
