@@ -9,7 +9,6 @@ import ceylon.collection
     Stack,
     LinkedList
 }
-//import ceylon.math.decimal { round, ceiling }
 import ceylon.math.float { ... }
 import ceylon.language.meta { type }
 import java.util.regex { Pattern, Matcher }

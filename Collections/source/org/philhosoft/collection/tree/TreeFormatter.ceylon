@@ -11,6 +11,7 @@ shared String formatAsNewick<Element, ActualTreeNode>(ActualTreeNode root,
 		String(Element?) asString = defaultAsString<Element>)
 		given ActualTreeNode satisfies TreeNode<Element, ActualTreeNode>
 {
+	// We need a custom iterator as we do a specific action on each step.
 	class PostOrderIteration(ActualTreeNode root)
 	{
 		function wrap(ActualTreeNode node)
@@ -87,6 +88,7 @@ shared String formatAsIndentedLines<Element, ActualTreeNode>(ActualTreeNode root
 			String(Element?) asString = defaultAsString<Element>)
 		given ActualTreeNode satisfies TreeNode<Element, ActualTreeNode>
 {
+	// We need a specific iterator to be able to push the node depth without recomputing it on each node (costly).
 	Stack<[ Integer, Iterator<ActualTreeNode> ]> stack = LinkedList<[ Integer, Iterator<ActualTreeNode> ]>();
 	stack.push([ 0, Singleton(root).iterator() ]);
 
@@ -138,6 +140,45 @@ shared String formatAsIndentedLines<Element, ActualTreeNode>(ActualTreeNode root
 	value ppi = PreOrderIteration(root);
 	value sb = StringBuilder();
 	ppi.iterate(sb);
+
+	return sb.string;
+}
+
+// Output can be tested at http://cpettitt.github.io/project/dagre-d3/latest/demo/interactive-demo.html for example
+shared String formatAsDot<Element, ActualTreeNode>(ActualTreeNode root, Boolean directed = true,
+			String(Element?) asString = defaultAsString<Element>)
+		given ActualTreeNode satisfies TreeNode<Element, ActualTreeNode> & ParentedTreeNode<Element, ActualTreeNode>
+{
+	String asDot(TreeNode<Element, ActualTreeNode> node)
+	{
+		value dq = "\"";
+		return dq + asString(node.element).replace(dq, "\\" + dq) + dq;
+	}
+
+	// Maybe we could pass a tree traversal as parameter, not sure if that's useful...
+	value nodes = breadthFirstTraversal(root, TreeNode<Element, ActualTreeNode>.children);
+	value sb = StringBuilder();
+	sb.append("``directed then "di" else ""``graph G
+	           {
+	           ");
+	if (root.children.empty)
+	{
+		if (exists e = root.element)
+		{
+			sb.append(asDot(root)).append("\n");
+		}
+	}
+	else
+	{
+		for (n in nodes)
+		{
+			if (is ParentedTreeNode<Element, ActualTreeNode> n, exists np = n.parent)
+			{
+				sb.append("``asDot(np)`` -``directed then ">" else "-"`` ``asDot(n)``\n");
+			}
+		}
+	}
+	sb.append("}");
 
 	return sb.string;
 }
