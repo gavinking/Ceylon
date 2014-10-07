@@ -10,6 +10,7 @@ import ceylon.collection
     LinkedList
 }
 import ceylon.math.float { ... }
+//import ceylon.math.float { floor, ceiling, random, pi, sin, cos }
 import ceylon.language.meta { type }
 import java.util.regex { Pattern, Matcher }
 import ceylon.interop.java { javaString }
@@ -20,13 +21,15 @@ class Dog()
     shared String noise() => "BARK!";
 }
 
-void fun() {
+void fun()
+{
     String myOtherName = "Aaron";
     // [...]
     print(myOtherName);
 }
 
-void printName() {
+void printName()
+{
     String name = "Bob";
     print("Hello, ``name``");
 }
