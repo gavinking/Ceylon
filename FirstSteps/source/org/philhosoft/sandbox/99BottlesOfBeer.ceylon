@@ -1,4 +1,4 @@
-String giveBottleNumber(Integer bn)
+String bottleNumber(Integer bn)
 {
 	String bs;
 	if (bn == 0)
@@ -16,24 +16,28 @@ String giveBottleNumber(Integer bn)
 	return bs + " of beer";
 }
 
-String giveTwoVerses(Integer bn) =>
-	giveBottleNumber(bn) + " on the wall, " + giveBottleNumber(bn).lowercased + "\n" +
-	"Take one down and pass it around, " + giveBottleNumber(bn-1).lowercased + " on the wall,\n";
+String onTheWall(String sep) => " on the wall" + sep;
+
+String twoVerses(Integer bn) =>
+		bottleNumber(bn) + onTheWall(", ") + bottleNumber(bn).lowercased + ".\n" +
+		"Take one down and pass it around, " + bottleNumber(bn-1).lowercased + onTheWall(".\n");
+
+String finalVerse() =>
+		bottleNumber(0) + onTheWall(", ") +
+		bottleNumber(0).lowercased + ".\n" +
+		"Go to the store, buy some more!";
 
 void sing99BottlesOfBeer_procedural()
 {
 	for (bn in 99..1)
 	{
-		print(giveTwoVerses);
+		print(twoVerses(bn));
 	}
-	print("No more bottles of beer on the wall,\nNo more bottles of beer");
-	print("Go to the store, buy some more!");
+	print(finalVerse());
 }
 
 void sing99BottlesOfBeer_functional()
 {
-	value beers = loop(99, (-1).plus).takeWhile(0.notLargerThan).map(giveTwoVerses);
-	print("\n".join(beers));
-	print("No more bottles of beer on the wall,\nNo more bottles of beer");
-	print("Go to the store, buy some more!");
+	value beers = loop(99, (-1).plus).takeWhile(1.notLargerThan).map(twoVerses);
+	print("\n".join(beers) + "\n" + finalVerse());
 }
