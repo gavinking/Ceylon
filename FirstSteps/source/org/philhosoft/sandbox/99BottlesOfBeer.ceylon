@@ -1,11 +1,12 @@
 String bottleNumber(Integer bn)
 {
 	String bs;
-	if (bn == 0)
+	switch (bn)
+	case (0)
 	{
 		bs = "No more bottles";
 	}
-	else if (bn == 1)
+	case (1)
 	{
 		bs = "One bottle";
 	}
